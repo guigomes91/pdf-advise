@@ -2,7 +2,7 @@ package br.com.g73.pdf_advise.api.controller.v1;
 
 import br.com.g73.pdf_advise.domain.model.ChatInput;
 import br.com.g73.pdf_advise.domain.service.PdfAdviseService;
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class PdfAdviseController {
 
     @GetMapping("/chat")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> chat(@RequestBody @Valid ChatInput input) {
-        return ResponseEntity.ok(pdfAdviseService.askQuestion(input));
+    public ResponseEntity<?> chat(@RequestParam @NotNull String question) {
+        return ResponseEntity.ok(pdfAdviseService.askQuestion(ChatInput.builder().input(question).build()));
     }
 }

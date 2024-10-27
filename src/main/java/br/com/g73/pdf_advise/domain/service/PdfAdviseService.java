@@ -55,16 +55,20 @@ public class PdfAdviseService {
 
     public ChatOutput askQuestion(ChatInput input) {
         try {
+            log.info("Question loading...");
             String response = chatClient
                     .prompt()
                     .user(input.getInput())
                     .call()
                     .content();
 
-            return ChatOutput.builder()
+            var responseOutput = ChatOutput.builder()
                     .dateTime(LocalDateTime.now())
                     .response(response)
                     .build();
+
+            log.info("Question done -> {}", responseOutput.getResponse());
+            return responseOutput;
         } catch (Exception ex) {
             log.error("Error to chat. {}", ex.getMessage());
         }
